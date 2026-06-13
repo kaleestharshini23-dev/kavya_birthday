@@ -8,84 +8,127 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --bg: #07070f;
-      --surface: #0f0f1e;
+      --text: #e8e8ff;
       --neon-pink: #ff2d78;
       --neon-cyan: #00f5ff;
       --neon-purple: #bf5aff;
-      --neon-gold: #ffd700;
-      --text: #e8e8ff;
-      --muted: #7a7a9a;
     }
 
-    html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
       color: var(--text);
       font-family: 'DM Sans', sans-serif;
       overflow-x: hidden;
+      text-align: center;
     }
 
-    #fireworks-canvas {
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-name {
+      font-family: 'Orbitron';
+      font-size: clamp(3rem, 10vw, 8rem);
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple), var(--neon-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* OVERLAY */
+    #friend-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .friend-card {
+      background: #111;
+      padding: 25px;
+      border-radius: 15px;
+      width: 300px;
+      box-shadow: 0 0 20px #ff2d78;
+    }
+
+    .friend-btns {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    #yes-btn {
+      background: #00f5ff;
+    }
+
+    #no-btn {
+      background: #ff2d78;
+      position: relative;
+    }
+
+    #accepted-msg {
+      display: none;
+      margin-top: 10px;
+      color: #00ff88;
+    }
+
+    /* COUNT */
+    #countdown {
+      margin-top: 30px;
+      font-size: 1.2rem;
+    }
+
+    canvas {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 999;
     }
-
-    /* ===== HERO ===== */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a0033 0%, var(--bg) 70%);
-      position: relative;
-    }
-
-    .hero-name {
-      font-family: 'Orbitron', monospace;
-      font-size: clamp(3.5rem, 12vw, 9rem);
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple), var(--neon-cyan));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-align: center;
-    }
-
-    /* (rest of your CSS unchanged but valid) */
   </style>
 </head>
 
 <body>
 
-<canvas id="fireworks-canvas"></canvas>
+<canvas id="fireworks"></canvas>
 
 <!-- FRIEND OVERLAY -->
 <div id="friend-overlay">
   <div class="friend-card">
     <h2>Accept Friendship?</h2>
-    <p>Kavya, before you see what's inside... Will you be my friend?</p>
+    <p>Kavya 💖 will you accept?</p>
 
     <div class="friend-btns">
       <button id="yes-btn" onclick="acceptFriendship()">Yes</button>
       <button id="no-btn">No</button>
     </div>
 
-    <div id="accepted-msg">🎉 Welcome bestie!</div>
+    <div id="accepted-msg">🎉 Welcome Bestie!</div>
   </div>
 </div>
 
 <!-- HERO -->
 <section id="hero">
   <h1 class="hero-name">Kavya</h1>
-  <p>Happy Birthday 🎉</p>
+  <p>Happy Birthday 🎂</p>
 </section>
 
 <!-- TIMER -->
@@ -96,22 +139,47 @@
   </div>
 </section>
 
-<!-- SCRIPT -->
+<!-- CONFETTI -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <script>
+let locked = false;
+
 const noBtn = document.getElementById("no-btn");
 const overlay = document.getElementById("friend-overlay");
 
+/* No button escape (controlled) */
 noBtn.addEventListener("mouseenter", () => {
-  const x = Math.random() * window.innerWidth;
-  const y = Math.random() * window.innerHeight;
+  if (locked) return;
+
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = Math.random() * (window.innerHeight - 100);
+
+  noBtn.style.position = "fixed";
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
-  noBtn.style.position = "fixed";
 });
 
+/* YES button */
 function acceptFriendship() {
+  if (locked) return;
+  locked = true;
+
+  document.getElementById("yes-btn").style.pointerEvents = "none";
+  document.getElementById("yes-btn").style.opacity = "0.5";
+
   document.getElementById("accepted-msg").style.display = "block";
-  setTimeout(() => overlay.style.display = "none", 1500);
+
+  /* 🎉 confetti */
+  confetti({
+    particleCount: 150,
+    spread: 80,
+    origin: { y: 0.6 }
+  });
+
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 1500);
 }
 
 /* TIMER */
@@ -119,10 +187,8 @@ const BIRTH_DATE = new Date("2003-06-13T00:00:00");
 
 function updateTimer() {
   const diff = Date.now() - BIRTH_DATE;
-  const s = Math.floor(diff / 1000);
-  const m = Math.floor(s / 60);
-  const h = Math.floor(m / 60);
-  const d = Math.floor(h / 24);
+
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
   const y = Math.floor(d / 365.25);
 
   document.getElementById("t-years").textContent = y;
