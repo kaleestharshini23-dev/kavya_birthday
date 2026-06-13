@@ -3,29 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Happy Birthday Kavya 🎂</title>
+<title>Birthday Surprise 🎂</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
 
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  :root {
-    --bg: #07070f;
-    --text: #e8e8ff;
-    --cyan: #00f5ff;
-    --pink: #ff2d78;
-    --purple: #bf5aff;
-  }
+  * { margin:0; padding:0; box-sizing:border-box; }
 
   body {
-    background: var(--bg);
-    color: var(--text);
     font-family: 'DM Sans', sans-serif;
+    background: #07070f;
+    color: white;
     overflow-x: hidden;
   }
 
@@ -36,194 +24,155 @@
     z-index: 999;
   }
 
-  /* ===== PAGE 1 ===== */
-  #friend-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.92);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-
-  .friend-card {
-    background: rgba(20,20,40,0.9);
-    padding: 30px;
-    border-radius: 18px;
-    width: 320px;
-    text-align: center;
-    box-shadow: 0 0 30px rgba(255,45,120,0.4);
-    backdrop-filter: blur(10px);
-  }
-
-  .friend-card h2 {
-    margin-bottom: 10px;
-  }
-
-  .friend-btns {
-    margin-top: 18px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  /* ===== MODERN BUTTONS ===== */
-  button {
-    padding: 12px 22px;
-    border: none;
-    cursor: pointer;
-    border-radius: 14px;
-    font-weight: 600;
-    transition: 0.3s ease;
-    font-size: 14px;
-  }
-
-  #yes-btn {
-    background: linear-gradient(135deg, var(--cyan), var(--purple));
-    color: #000;
-    box-shadow: 0 0 18px rgba(0,245,255,0.5);
-  }
-
-  #yes-btn:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 28px rgba(0,245,255,0.9);
-  }
-
-  #no-btn {
-    background: rgba(255,45,120,0.15);
-    border: 1px solid rgba(255,45,120,0.5);
-    color: var(--pink);
-  }
-
-  #no-btn:hover {
-    transform: scale(1.08);
-    background: rgba(255,45,120,0.3);
-    box-shadow: 0 0 20px rgba(255,45,120,0.6);
-  }
-
-  #accepted-msg {
-    display: none;
-    margin-top: 12px;
-    color: #00ff88;
-    font-weight: 600;
-  }
-
-  /* ===== PAGE 2 ===== */
-  #hero {
+  /* CENTER BOX */
+  .screen {
     display: none;
     min-height: 100vh;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .active {
+    display: flex;
+  }
+
+  h1 {
+    font-family: Orbitron;
+    margin-bottom: 15px;
+  }
+
+  input {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    width: 200px;
+    margin-top: 10px;
     text-align: center;
   }
 
-  .hero-name {
-    font-family: 'Orbitron';
-    font-size: clamp(3rem, 10vw, 8rem);
-    background: linear-gradient(135deg, var(--pink), var(--purple), var(--cyan));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  /* 🎨 BUTTONS */
+  button {
+    margin-top: 15px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
   }
 
-  #countdown {
-    display: none;
-    margin-top: 20px;
-    font-size: 1.2rem;
+  .yes {
+    background: linear-gradient(135deg,#00f5ff,#7c4dff);
+    color: black;
+  }
+
+  .no {
+    background: linear-gradient(135deg,#ff2d78,#ff7a18);
+    color: white;
+  }
+
+  button:hover {
+    transform: scale(1.08);
+  }
+
+  /* FINAL */
+  .final {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-family: Orbitron;
+    background: linear-gradient(135deg,#ff2d78,#7c4dff,#00f5ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation: glow 2s infinite alternate;
+  }
+
+  @keyframes glow {
+    from { filter: drop-shadow(0 0 10px #ff2d78); }
+    to { filter: drop-shadow(0 0 25px #00f5ff); }
   }
 </style>
 </head>
 
 <body>
 
-<canvas id="fireworks"></canvas>
+<canvas id="fx"></canvas>
 
-<!-- PAGE 1 -->
-<div id="friend-overlay">
-  <div class="friend-card">
-    <h2>Accept Friendship?</h2>
-    <p>Kavya 💖, will you accept?</p>
+<!-- 1️⃣ FRIENDSHIP -->
+<div class="screen active" id="page1">
+  <h1>💖 Accept Friendship?</h1>
+  <p>Kavya, are you ready for surprise?</p>
 
-    <div class="friend-btns">
-      <button id="yes-btn" onclick="acceptFriendship()">Yes</button>
-      <button id="no-btn">No</button>
-    </div>
-
-    <div id="accepted-msg">🎉 Welcome Bestie!</div>
-  </div>
+  <button class="yes" onclick="goCode()">YES</button>
+  <button class="no">NO</button>
 </div>
 
-<!-- PAGE 2 -->
-<section id="hero">
-  <h1 class="hero-name">Kavya</h1>
-  <p>Happy Birthday 🎂</p>
-</section>
+<!-- 2️⃣ SECRET CODE -->
+<div class="screen" id="page2">
+  <h1>🔐 Enter Secret Code</h1>
+  <p>Hint: Birthday year 😏</p>
 
-<section id="countdown">
-  <span id="t-years">00</span> Years
-  <span id="t-days">000</span> Days
-</section>
+  <input id="code" placeholder="Enter code"/>
+  <button class="yes" onclick="checkCode()">Unlock</button>
+</div>
+
+<!-- 3️⃣ QUESTIONS -->
+<div class="screen" id="page3">
+  <h1>❓ Quick Questions</h1>
+
+  <p>Do you like surprises?</p>
+  <button class="yes" onclick="nextQ()">Yes</button>
+  <button class="no" onclick="nextQ()">No</button>
+</div>
+
+<!-- 4️⃣ FINAL -->
+<div class="screen" id="page4">
+  <h1 class="final">🎂 HAPPY BIRTHDAY KAVYA 🎉</h1>
+  <p>✨ You are special ✨</p>
+</div>
 
 <!-- CONFETTI -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-let locked = false;
+let current = 1;
 
-const overlay = document.getElementById("friend-overlay");
-const noBtn = document.getElementById("no-btn");
+/* PAGE SWITCH */
+function show(n){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById("page"+n).classList.add("active");
+  current = n;
+}
 
-/* NO button escape */
-noBtn.addEventListener("mouseenter", () => {
-  if (locked) return;
+/* 1 → 2 */
+function goCode(){
+  show(2);
+}
 
-  const x = Math.random() * (window.innerWidth - 120);
-  const y = Math.random() * (window.innerHeight - 120);
+/* SECRET CODE */
+function checkCode(){
+  const val = document.getElementById("code").value;
 
-  noBtn.style.position = "fixed";
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-});
+  if(val === "2003"){
+    confetti();
+    show(3);
+  } else {
+    alert("Wrong code 😏 Hint: year");
+  }
+}
 
-/* YES click */
-function acceptFriendship() {
-  if (locked) return;
-  locked = true;
-
-  document.getElementById("yes-btn").style.pointerEvents = "none";
-  document.getElementById("yes-btn").style.opacity = "0.6";
-
-  document.getElementById("accepted-msg").style.display = "block";
+/* QUESTIONS */
+function nextQ(){
+  show(4);
 
   confetti({
     particleCount: 200,
-    spread: 100,
+    spread: 120,
     origin: { y: 0.6 }
   });
-
-  setTimeout(() => {
-    overlay.style.display = "none";
-
-    document.getElementById("hero").style.display = "flex";
-    document.getElementById("countdown").style.display = "block";
-  }, 1200);
 }
-
-/* TIMER */
-const BIRTH_DATE = new Date("2003-06-13T00:00:00");
-
-function updateTimer() {
-  const diff = Date.now() - BIRTH_DATE;
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const years = Math.floor(days / 365.25);
-
-  document.getElementById("t-years").textContent = years;
-  document.getElementById("t-days").textContent = days % 365;
-}
-
-setInterval(updateTimer, 1000);
-updateTimer();
 </script>
 
 </body>
