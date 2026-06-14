@@ -1,188 +1,751 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Birthday Surprise 🎂</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=DM+Sans:wght@300;500;700&display=swap" rel="stylesheet"/>
 
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
+body{
+  margin:0;
+  font-family:'DM Sans',sans-serif;
+  color:#fff;
+  overflow:hidden;
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: #07070f;
-    color: white;
-    overflow-x: hidden;
+  /* deep premium dark */
+  background: radial-gradient(circle at top,
+    #1b0033 0%,
+    #050510 40%,
+    #000000 100%);
+}
+
+/* cinematic neon glow blobs */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,0,150,0.25), transparent 45%),
+    radial-gradient(circle at 85% 25%, rgba(0,255,255,0.18), transparent 45%),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,0.08), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(120,0,255,0.15), transparent 50%);
+
+  filter: blur(25px);
+  animation: floatGlow 12s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+
+@keyframes floatGlow{
+  from{
+    transform:scale(1) translateY(0);
   }
-
-  .screen {
-    display: none;
-    min-height: 100vh;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
+  to{
+    transform:scale(1.2) translateY(-25px);
   }
+}
 
-  .active { display:flex; }
+/* subtle grain for premium feel */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url("https://www.transparenttextures.com/patterns/noise.png");
+  opacity:0.04;
+  pointer-events:none;
+}
 
-  h1 {
-    font-family: Orbitron;
-    margin-bottom: 15px;
+/* SCREEN */
+.screen{
+  display:none;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(0.98);}
+  to{opacity:1; transform:scale(1);}
+}
+.active{display:flex;}
+
+/* CARD */
+.card{
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.10),
+    rgba(255,255,255,0.04));
+
+  border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(22px);
+
+  padding:30px;
+  border-radius:26px;
+  text-align:center;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+
+  position:relative;
+  overflow:hidden;
+
+  transition:0.3s;
+}
+
+/* glowing border effect */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:28px;
+  background: linear-gradient(45deg,
+    rgba(0,255,255,0.3),
+    rgba(255,0,150,0.3),
+    rgba(120,0,255,0.3));
+
+  filter:blur(18px);
+  opacity:0.4;
+  z-index:-1;
+}
+
+.card:hover{
+  transform:scale(1.02);
+}
+/* PAGE 1 GIF */
+.heroGif{
+  width:110px;
+  border-radius:20px;
+}
+
+/* YES */
+.yes{
+  background: linear-gradient(135deg,#00f5ff,#7c4dff);
+  border:none;
+  color:black;
+  font-weight:700;
+
+  padding:12px 25px;
+  border-radius:14px;
+
+  box-shadow:
+    0 10px 30px rgba(0,255,255,0.25);
+}
+
+.yes:active{
+  transform:scale(0.96);
+} 
+/* NO BUTTON */
+.no{
+  position:absolute;
+  padding:10px 18px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#ff2d2d,#ff7a7a);
+  transition:0.2s;
+}
+
+/* SLIDER */
+.lockBox{
+  width:200px;
+  height:30px;
+  background:rgba(255,255,255,0.15);
+  border-radius:40px;
+  position:relative;
+}
+
+.slider{
+  width:30px;
+  height:35px;
+  border-radius:50%;
+  position:absolute;
+  left:0;
+  top:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#00f5ff,#7c4dff);
+  font-size:20px;
+  touch-action:none;
+}
+
+/* 🔐 SECRET CODE UI (DOT STYLE) */
+#password{
+  padding:16px;
+  width:220px;
+  border-radius:14px;
+  border:none;
+  text-align:center;
+  font-size:20px;
+  letter-spacing:10px;
+  background:rgba(255,255,255,0.12);
+  color:#00f5ff;
+  outline:none;
+  box-shadow:0 0 15px rgba(0,245,255,0.3);
+  transition:0.3s;
+
+  /* DOT STYLE */
+  -webkit-text-security: disc;
+}
+
+#password:focus{
+  box-shadow:0 0 25px #00f5ff;
+  transform:scale(1.05);
+}
+
+/* PAGE 3 */
+#page3 h1{
+  font-size:52px;
+  text-shadow:0 0 25px #ff2d78;
+}
+
+/* VIDEO */
+.video-box video{
+  width:280px;
+  height:380px;
+  object-fit:cover;
+  border-radius:15px;
+}
+
+/* GIFTS */
+.gifts{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  margin-top:30px;
+}
+
+.gift{
+  font-size:95px;
+  cursor:pointer;
+  transition:0.4s;
+
+  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.6));
+}
+
+.gift:hover{
+  transform:scale(1.2) rotate(5deg);
+}
+.gift:active{
+  transform:scale(0.9);
+}
+
+.gift.open{
+  transform:rotateY(180deg) scale(1.6);
+  opacity:0.5;
+}
+
+/* FINAL */
+#finalMsg{
+  display:none;
+  margin-top:20px;
+  color:#00f5ff;
+  text-shadow:0 0 20px #00f5ff;
+}
+
+.popup{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.popup-card{
+  background:rgba(255,255,255,0.1);
+  padding:25px;
+  border-radius:20px;
+  text-align:center;
+  backdrop-filter:blur(15px);
+  width:300px;
+  animation:pop 0.3s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(0.5);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.close{
+  float:right;
+  cursor:pointer;
+  font-size:18px;
+}
+
+.heart{
+  position:fixed;
+  font-size:25px;
+  animation:floatUp 4s linear forwards;
+}
+
+@keyframes floatUp{
+  from{
+    transform:translateY(0);
+    opacity:1;
   }
-
-  /* BUTTONS */
-  button {
-    padding: 12px 26px;
-    border: none;
-    border-radius: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-    margin: 8px;
+  to{
+    transform:translateY(-100vh);
+    opacity:0;
   }
+}
 
-  .yes {
-    background: linear-gradient(135deg,#00f5ff,#7c4dff);
-    color: black;
-    box-shadow: 0 0 20px #00f5ff;
-  }
+.close{
+  position:absolute;
+  top:12px;
+  right:15px;
 
-  button:hover {
-    transform: scale(1.08);
-  }
+  font-size:22px;
+  color:white;
+  cursor:pointer;
 
-  /* INPUT */
-  input {
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    width: 220px;
-    text-align: center;
-    font-size: 16px;
-    margin-top: 10px;
-  }
+  width:35px;
+  height:35px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  /* FINAL PAGE */
-  .final {
-    font-size: clamp(2.5rem,7vw,5rem);
-    font-family: Orbitron;
-    background: linear-gradient(135deg,#ff2d78,#7c4dff,#00f5ff);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation: glow 2s infinite alternate;
-  }
+  border-radius:50%;
+  background:rgba(255,255,255,0.1);
 
-  @keyframes glow {
-    from { filter: drop-shadow(0 0 10px #ff2d78); }
-    to { filter: drop-shadow(0 0 25px #00f5ff); }
-  }
+  transition:0.3s;
+}
 
-  #msg {
-    margin-top: 15px;
-    color: #00f5ff;
-  }
+.close:hover{
+  background:rgba(255,0,150,0.3);
+  transform:scale(1.1);
+}
+.popup-card{
+  position:relative; /* THIS IS IMPORTANT */
+
+  background:rgba(255,255,255,0.1);
+  padding:10px;
+  border-radius:20px;
+  text-align:center;
+  backdrop-filter:blur(15px);
+  width:300px;
+  animation:pop 0.3s ease;
+}
+
 </style>
 </head>
-<!-- force update tick fix -->
- <!-- update fix -->
 
 <body>
 
-<!-- 1 FRIENDSHIP -->
+<!-- PAGE 1 -->
 <div class="screen active" id="page1">
-  <h1>💖 Accept Friendship?</h1>
 
-  <button class="yes" onclick="goCode()">YES 😍</button>
-  <button class="yes" onclick="goCode()">NO 😏</button>
+  <div class="card">
+    <img class="heroGif" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"/>
+    <h1>💖 Will you be my friend?</h1>
+
+    <!-- <div class="lockBox">
+      <div class="slider" id="slider"></div>
+    </div> -->
+    <div class="lockBox">
+  <div class="progress" id="progress"></div>
+  <div class="slider" id="slider">👉</div>
 </div>
 
-<!-- 2 SECRET CODE -->
+    <button class="yes" id="yesBtn" disabled>YES 😍</button>
+  </div>
+
+  <button class="no" id="noBtn">NO 😏</button>
+</div>
+
+<!-- PAGE 2 -->
 <div class="screen" id="page2">
-  <h1>🔐 Secret Code</h1>
-  <p>Hint: Birthday year 😏</p>
-
-  <input id="code" type="password" placeholder="••••••"/>
-  <button class="yes" onclick="checkCode()">Unlock</button>
+  <div class="card">
+    <h1>🔐 Secret Code</h1>
+    <input id="password" type="password" maxlength="4" placeholder="••••"/>
+  </div>
 </div>
 
-<!-- 3 QUESTIONS -->
+<!-- PAGE 3 -->
 <div class="screen" id="page3">
-  <h1>❓ Do you like surprises?</h1>
-
-  <button class="yes" onclick="showFinal()">YES 😍</button>
-  <button class="yes" onclick="noReaction()">NO 😏</button>
-
-  <p id="msg"></p>
+  <div class="card">
+    <h1>🎉 HAPPY BIRTHDAY 🎂</h1>
+    <h1>KAVZ 🎉</h1>
+    <button class="yes" onclick="goPage4()">Next 🎁</button>
+  </div>
 </div>
 
-<!-- 4 FINAL -->
+<!-- PAGE 4 -->
 <div class="screen" id="page4">
-  <h1 class="final">🎂 HAPPY BIRTHDAY 🎉</h1>
-  <p>✨ You are special ✨</p>
+  <div class="card">
+<h2>🎁 A Special Surprise for You</h2>
+
+<!-- VIDEO TOP -->
+<div class="video-box" style="margin-top:20px;">
+  <video src="1000086445.mp4"
+         autoplay
+         loop
+         muted
+         controls>
+  </video>
 </div>
 
-<!-- CONFETTI -->
+<!-- 3 GIFTS BELOW VIDEO -->
+<div class="gifts">
+
+  <div class="gift" onclick="openGift(1)">🎁</div>
+
+  <div class="gift" onclick="openGift(2)">🎁</div>
+
+  <div class="gift" onclick="openGift(3)">🎁</div>
+  <audio id="bgSong" src="music.mp3"></audio>
+
+</div>
+<!-- PAGE 4 -->
+<div id="finalMsg" style="display:none; margin-top:30px;">
+
+
+  <h1>🏆 Birthday Queen👑</h1>
+
+  <div style="
+    background:rgba(255,255,255,0.1);
+    padding:20px;
+    border-radius:20px;
+    margin-top:15px;">
+    
+    <h2>Presented To</h2>
+    <h1>KAVYA ❤️</h1>
+
+    <p>
+      For being an amazing person,<br>
+      spreading smiles and happiness everywhere ✨
+    </p>
+
+  </div>
+
+  <div style="margin-top:25px;">
+    <h2>💌 A Final Message</h2>
+
+    <p style="line-height:1.8;font-size:18px;">
+      Thank you for being such a wonderful friend 💖<br><br>
+
+      May this birthday bring you endless happiness,
+      success, love and beautiful memories 🎂✨<br><br>
+
+      Keep smiling, keep shining and always stay the amazing person you are ❤️
+    </p>
+
+    <h1>🎉 HAPPY BIRTHDAY 🎉</h1>
+  </div>
+
+</div>
+
+<!-- POPUP -->
+<div id="popup" class="popup">
+  <div class="popup-card">
+    <span onclick="closePopup()" class="close">✖</span>
+    <div id="popupContent"></div>
+    
+  </div>
+</div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
 
 function show(n){
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("page"+n).classList.add("active");
 }
 
-/* 1 -> 2 */
-function goCode(){
+/* PAGE 1 YES */
+document.getElementById("yesBtn").onclick=()=>{
   show(2);
-}
+  confetti();
+};
 
-/* SECRET CODE */
-function checkCode(){
-  const val = document.getElementById("code").value;
+const slider = document.getElementById("slider");
+const lockBox = document.querySelector(".lockBox");
+const progress = document.getElementById("progress");
 
-  if(val === "2003"){
-    confetti();
-    show(3);
-  } else {
-    alert("Wrong Code 😏 Hint: Year");
+let dragging = false;
+let unlocked = false;
+
+function updateSlider(clientX){
+
+  if(unlocked) return;
+
+  const rect = lockBox.getBoundingClientRect();
+
+  let pos = clientX - rect.left - (slider.offsetWidth / 2);
+
+  const max = rect.width - slider.offsetWidth;
+
+  pos = Math.max(0, Math.min(pos, max));
+
+  slider.style.left = pos + "px";
+  progress.style.width = (pos + slider.offsetWidth/2) + "px";
+
+  if(pos >= max - 5){
+    unlocked = true;
+
+    progress.style.width = "100%";
+
+    document.getElementById("yesBtn").disabled = false;
+
+    confetti({
+      particleCount:150,
+      spread:120
+    });
   }
 }
 
-/* NO reaction fun */
-function noReaction(){
-  const msg = document.getElementById("msg");
+/* Mobile */
+slider.addEventListener("touchstart", () => {
+  dragging = true;
+});
 
-  const texts = [
-    "😂 NO sollatha...",
-    "😏 try again...",
-    "💖 but you still care!",
-    "🎉 surprise waiting..."
-  ];
+document.addEventListener("touchmove", (e) => {
+  if(dragging){
+    updateSlider(e.touches[0].clientX);
+  }
+});
 
-  msg.innerText = texts[Math.floor(Math.random()*texts.length)];
+document.addEventListener("touchend", () => {
+  dragging = false;
+});
+
+/* PC */
+slider.addEventListener("mousedown", () => {
+  dragging = true;
+});
+
+document.addEventListener("mousemove", (e) => {
+  if(dragging){
+    updateSlider(e.clientX);
+  }
+});
+
+document.addEventListener("mouseup", () => {
+  dragging = false;
+});
+
+document.addEventListener("mouseup",()=>drag=false);
+
+/* ❌ NO BUTTON SUPER UPGRADE */
+const noBtn=document.getElementById("noBtn");
+
+const texts=[
+  "NO 😏","TRY AGAIN 😂","NOPE 🚫","CATCH ME 😜",
+  "LOL 🤣","BYE 👋","NEVER 😈"
+];
+
+const colors=[
+  "#ff2d2d","#ff4d6d","#ff006e","#ff7a7a","#ff8800","#ffcc00"
+];
+
+noBtn.addEventListener("mouseenter",()=>{
+
+  let x=Math.random()*(window.innerWidth-120);
+  let y=Math.random()*(window.innerHeight-120);
+
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+
+  noBtn.innerText = texts[Math.floor(Math.random()*texts.length)];
+  noBtn.style.background = colors[Math.floor(Math.random()*colors.length)];
+
+  noBtn.style.transform = `rotate(${Math.random()*20-10}deg) scale(1.1)`;
 
   confetti({
-    particleCount: 60,
-    spread: 80,
-    origin: { y: 0.7 }
+    particleCount:25,
+    spread:60,
+    origin:{x:Math.random(), y:Math.random()}
   });
-}
 
-/* FINAL */
-function showFinal(){
+  if(navigator.vibrate){
+    navigator.vibrate(40);
+  }
+
+});
+
+/* PAGE 2 AUTO SECRET CODE (DOT INPUT) */
+document.getElementById("password").addEventListener("input", function(){
+
+  let val = this.value;
+
+  // correct code = "a"
+  if(val === "a"){
+    setTimeout(()=>{
+      show(3);
+      confetti({particleCount:200,spread:160});
+    },300);
+  }
+
+});
+
+/* PAGE 3 */
+function goPage4(){
   show(4);
-
-  confetti({
-    particleCount: 200,
-    spread: 120,
-    origin: { y: 0.6 }
-  });
+  confetti({particleCount:250,spread:180});
 }
 
+/* PAGE 4 GIFTS */
+let opened=0;
+
+
+let openedGifts = [];
+
+function openGift(id){
+
+  if(openedGifts.includes(id)) return;
+
+  openedGifts.push(id);
+
+  let popup = document.getElementById("popup");
+  let content = document.getElementById("popupContent");
+
+  popup.style.display = "flex";
+
+  // 🎁 Gift 1
+  if(id===1){
+    content.innerHTML=`
+      <h1>🎉 Happy Birthday 🎂</h1>
+
+      <p style="line-height:1.8;font-size:18px;">
+      Today is all about you ✨<br><br>
+
+      💖 You are an amazing person and you deserve all the happiness in the world.<br><br>
+
+      🌸 May every day bring you new reasons to smile.<br><br>
+
+      ⭐ May your dreams come true and your future be bright.<br><br>
+
+      🎂 Enjoy your special day and make beautiful memories.<br><br>
+
+      ❤️ Once again... Happy Birthday!
+      </p>
+
+      <h2>🎈✨🎉💖🎂✨🎈</h2>
+    `;
+  }
+
+  // 🎁 Gift 2
+  if(id===2){
+    content.innerHTML=`
+      <h2>🎂 Cake Cutting Surprise</h2>
+
+      <video
+        src="cake.mp4"
+        controls
+        autoplay
+        style="width:100%;border-radius:15px;margin-top:10px;">
+      </video>
+
+      <p style="margin-top:15px;font-size:18px;">
+        🎉 Make a wish and cut the cake! 🎂✨
+      </p>
+    `;
+  }
+
+  // 🎁 Gift 3
+ let currentSong = null;
+
+if(id === 3){
+
+  content.innerHTML = `
+    <h2>💖 One More Surprise</h2>
+
+    <audio id="bgSong" src="music.mp3"></audio>
+
+    <p style="font-size:18px;line-height:1.8;">
+      காவ்யா உன் பெயர் கேட்டாலே 📲<br>
+      Phone brightness தானா increase ஆகுது போல 😄✨<br><br>
+
+      உன் சிரிப்பு பார்த்தா 😊<br>
+      Instagram reels-ல repeat button auto ON ஆகுது 🔁💖<br><br>
+
+      நீ சிரிச்சா மட்டும் போதும் 😆<br>
+      CPU cool mode-க்கு போயிடுது ❄️😂<br><br>
+
+      உன் birthdayன்னா 🎂<br>
+      Clouds கூட sunshine mode ☀️<br><br>
+
+      💖 Happy Birthday Kavya 💖
+    </p>
+
+    <button id="playBtn">🎶 Play Song</button>
+  `;
+
+  setTimeout(()=>{
+
+    currentSong = document.getElementById("bgSong");
+
+    document.getElementById("playBtn").addEventListener("click", ()=>{
+
+      currentSong.play();
+
+      // ⏱️ 20 sec auto stop (optional but safe)
+      setTimeout(()=>{
+        currentSong.pause();
+        currentSong.currentTime = 0;
+      },20000);
+
+    });
+
+  },300);
+}
+function closePopup(){
+  document.getElementById("popup").style.display="none";
+
+  if(currentSong){
+    currentSong.pause();
+    currentSong.currentTime = 0;
+  }
+}
+  confetti({
+    particleCount:150,
+    spread:120
+  });
+
+  // All gifts opened
+  if(openedGifts.length === 3){
+
+    document.getElementById("finalMsg").style.display = "block";
+
+    confetti({
+      particleCount:500,
+      spread:360,
+      origin:{y:0.6}
+    });
+  }
+} 
+
+function closePopup(){
+  document.getElementById("popup").style.display="none";
+
+  let song = document.getElementById("bgSong");
+
+  if(song){
+    song.pause();
+    song.currentTime = 0;
+  }
+}
+
+for(let i=0;i<15;i++){
+  let heart=document.createElement("div");
+  heart.innerHTML="💖";
+  heart.className="heart";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.top="100vh";
+  document.body.appendChild(heart);
+
+  setTimeout(()=>{
+    heart.remove();
+  },4000);
+}
 </script>
 
 </body>
