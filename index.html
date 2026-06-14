@@ -363,7 +363,7 @@ body::after{
 <div class="screen" id="page2">
   <div class="card">
     <h1>🔐 Secret Code</h1>
-    <input id="password" type="password" maxlength="4" placeholder="••••"/>
+    <input id="password" type="password" maxlength="5" placeholder="•••.•"/>
   </div>
 </div>
 
@@ -577,7 +577,7 @@ document.getElementById("password").addEventListener("input", function(){
   let val = this.value;
 
   // correct code = "a"
-  if(val === "a"){
+  if(val === "kavya"){
     setTimeout(()=>{
       show(3);
       confetti({particleCount:200,spread:160});
