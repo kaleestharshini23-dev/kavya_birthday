@@ -135,6 +135,9 @@ body::after{
   box-shadow:
     0 10px 30px rgba(0,255,255,0.25);
 }
+#yesBtn{
+  margin-top:30px;
+}
 
 .yes:active{
   transform:scale(0.96);
@@ -172,7 +175,12 @@ body::after{
   font-size:20px;
   touch-action:none;
 }
-
+.slideshow-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:0 auto;
+}
 /* 🔐 SECRET CODE UI (DOT STYLE) */
 #password{
   padding:16px;
@@ -333,6 +341,20 @@ body::after{
   animation:pop 0.3s ease;
 }
 
+#gift3Content video{
+  width:100%;
+  max-width:500px;
+  border-radius:15px;
+}
+.progress{
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  width:0;
+  border-radius:40px;
+  background:linear-gradient(135deg,#00f5ff,#7c4dff);
+}
 </style>
 </head>
 
@@ -363,7 +385,7 @@ body::after{
 <div class="screen" id="page2">
   <div class="card">
     <h1>🔐 Secret Code</h1>
-    <input id="password" type="password" maxlength="5" placeholder="•••.•"/>
+    <input id="password" type="password" maxlength="5" placeholder="••••"/>
   </div>
 </div>
 
@@ -399,22 +421,30 @@ body::after{
   <div class="gift" onclick="openGift(2)">🎁</div>
 
   <div class="gift" onclick="openGift(3)">🎁</div>
-  <audio id="bgSong" src="music.mp3"></audio>
+
+<div id="gift3Content" style="display:none;">
+  <h2>🎥 Special Video For You</h2>
+
+  <video controls autoplay width="100%" style="border-radius:15px;">
+    <source src="birthday-video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
 
 </div>
 <!-- PAGE 4 -->
 <div id="finalMsg" style="display:none; margin-top:30px;">
 
-
-  <h1>🏆 Birthday Queen👑</h1>
+  <h1>🏆 Birthday Queen 👑</h1>
 
   <div style="
     background:rgba(255,255,255,0.1);
     padding:20px;
     border-radius:20px;
     margin-top:15px;">
-    
+
     <h2>Presented To</h2>
+
     <h1>KAVYA ❤️</h1>
 
     <p>
@@ -424,8 +454,12 @@ body::after{
 
   </div>
 
+</div>
+
+    
+
   <div style="margin-top:25px;">
-    <h2>💌 A Final Message</h2>
+    <h2> 🏆 Birthday Queen 👑</h2>
 
     <p style="line-height:1.8;font-size:18px;">
       Thank you for being such a wonderful friend 💖<br><br>
@@ -576,7 +610,7 @@ document.getElementById("password").addEventListener("input", function(){
 
   let val = this.value;
 
-  // correct code = "a"
+  // correct code = "kavya"
   if(val === "kavya"){
     setTimeout(()=>{
       show(3);
@@ -656,29 +690,14 @@ function openGift(id){
 if(id === 3){
 
   content.innerHTML = `
-    <h2>💖 One More Surprise</h2>
+    <h2>🎥 Special Video For You</h2>
 
-    <audio id="bgSong" src="music.mp3"></audio>
-
-    <p style="font-size:18px;line-height:1.8;">
-      காவ்யா உன் பெயர் கேட்டாலே 📲<br>
-      Phone brightness தானா increase ஆகுது போல 😄✨<br><br>
-
-      உன் சிரிப்பு பார்த்தா 😊<br>
-      Instagram reels-ல repeat button auto ON ஆகுது 🔁💖<br><br>
-
-      நீ சிரிச்சா மட்டும் போதும் 😆<br>
-      CPU cool mode-க்கு போயிடுது ❄️😂<br><br>
-
-      உன் birthdayன்னா 🎂<br>
-      Clouds கூட sunshine mode ☀️<br><br>
-
-      💖 Happy Birthday Kavya 💖
-    </p>
-
-    <button id="playBtn">🎶 Play Song</button>
+    <video controls autoplay style="width:100%;border-radius:15px;">
+      <source src="birthday-video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
   `;
-
+}
   setTimeout(()=>{
 
     currentSong = document.getElementById("bgSong");
@@ -721,7 +740,7 @@ function closePopup(){
       origin:{y:0.6}
     });
   }
-} 
+ 
 
 function closePopup(){
   document.getElementById("popup").style.display="none";
